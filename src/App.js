@@ -1,25 +1,44 @@
-import logo from './logo.svg';
+import React, { useState } from 'react';
 import './App.css';
 
-function App() {
+const AgeCalculator = () => {
+  const [dob, setDob] = useState('');
+  const [age, setAge] = useState(null);
+
+  const calculateAge = () => {
+    const birthDate = new Date(dob);
+    const currentDate = new Date();
+    const ageDifference = currentDate.getFullYear() - birthDate.getFullYear();
+    // Check if the birthday has occurred this year
+    if (
+      currentDate.getMonth() < birthDate.getMonth() ||
+      (currentDate.getMonth() === birthDate.getMonth() &&
+        currentDate.getDate() < birthDate.getDate())
+    ) {
+      setAge(ageDifference - 1);
+    } else {
+      setAge(ageDifference);
+    }
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <div>
+        <h1 className='c1'>Age Calculator</h1>
+        <h3>Enter your date of birth</h3>
+        <input
+          type="date"
+          value={dob}
+          onChange={(e) => setDob(e.target.value)}
+        />
+      </div>
+      <div>
+        <button onClick={calculateAge}>Calculate Age</button>
+      </div>
+      {age !== null && <h2>Your are {age} years old</h2>}
     </div>
   );
-}
+};
 
-export default App;
+export default AgeCalculator;
+
